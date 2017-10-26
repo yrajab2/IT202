@@ -1,0 +1,32 @@
+<html>
+<head>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery-3.2.1.min.js"></script>
+</head>
+<style>
+    canvas {background-color: white;}
+</style>
+<body>
+    <canvas id="classacti" width="500" height="500"></canvas>
+   <script>
+       $('#classacti').on("click", function(evt){
+           console.log(evt);
+           drawCircle (evt.clientX, evt.clientY);
+       });
+   </script>
+<script>
+function drawCircle(x,y) {
+//var radius = Math.floor(Math.random()*50);-- random shaped circles 
+//var xpos = Math.floor(Math.random()*c.width);
+//var ypos = Math.floor(Math.random()*c.height);
+var c = document.getElementById("classacti");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(x,y,40,0,2*Math.PI);
+ctx.stroke();  
+}
+
+</script> 
+
+</body>
