@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Bars in River North</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" sizes="192x192" href="https://material.io/static/images/simple-lp/favicons/components-192x192.png">
+  <link rel="shortcut icon" href="https://material.io/static/images/simple-lp/favicons/components-72x72.png">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet"
+        href="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.css">
+  <link rel="stylesheet" href="app.css">
+   <style>
+      #map {
+        width: 100%;
+        height: 900px;
+        background-color: grey;
+      }
+    </style>
+</head>
+<body class="mdc-typography">
+  <div id="map"></div>
+  <header id="shrine-header"
+          class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
+    <div class="mdc-toolbar__row">
+      <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+        <a id="shrine-nav-icon" class="material-icons mdc-ripple-surface" href="#"
+           aria-label="Click to show the navigation menu"
+           aria-controls="shrine-nav-menu"
+           data-mdc-auto-init="MDCRipple"
+           data-mdc-ripple-is-unbounded>menu</a>
+        <h1 id="" class="mdc-toolbar__title"><span>Bars in River North</span></h1>
+      </section>
+    </div>
+  </header>
+<script>
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var map;
+      var infowindow;
+
+      function initMap() {
+        var pyrmont = {lat: 41.892385, lng: -87.634075};
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: chicago,
+          zoom: 15
+        });
+
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: chicago,
+          radius: 500,
+          type: ['bar']
+        }, callback);
+      }
+
+      function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+      }
+    </script>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdDUZ0NRQ1HFqCk21NbS06fGHgH1rfkb8&callback=initMap">
+    </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdDUZ0NRQ1HFqCk21NbS06fGHgH1rfkb8&libraries=places&callback=initMap" async defer></script>
+
+  <aside id="shrine-nav-menu" class="mdc-temporary-drawer" data-mdc-auto-init="MDCTemporaryDrawer">
+    <nav class="mdc-temporary-drawer__drawer">
+      <header></header>
+      <nav class="mdc-temporary-drawer__content mdc-list">
+        <a class="mdc-list-item" href="#">About</a>
+        <a class="mdc-list-item" href="#">Bars Favorited</a>
+        
+      </nav>
+    </nav>
+  </aside>
+
+  
+  <script
+    src="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.js">
+  </script>
+  <script>
+    mdc.autoInit()
+    document.getElementById('shrine-nav-icon').addEventListener('click', function(evt) {
+      evt.preventDefault();
+      document.getElementById('shrine-nav-menu').MDCTemporaryDrawer.open = true;
+    });
+  </script>
+</body>
+</html>
