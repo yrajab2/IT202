@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Bars in River North</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" sizes="192x192" href="https://material.io/static/images/simple-lp/favicons/components-192x192.png">
+  <link rel="shortcut icon" href="https://material.io/static/images/simple-lp/favicons/components-72x72.png">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet"
+        href="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.css">
+  <link rel="stylesheet" href="app.css">
+   <style>
+      #map {
+        width: 100%;
+        height: 670px;
+        background-color: grey;
+      }
+      
+
+    </style>
+</head>
+<body class="mdc-typography">
+  <div id="map"></div>
+  <header id="shrine-header"
+          class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
+    <div class="mdc-toolbar__row">
+      <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+        <a id="shrine-nav-icon" class="material-icons mdc-ripple-surface" href="#"
+           aria-label="Click to show the navigation menu"
+           aria-controls="shrine-nav-menu"
+           data-mdc-auto-init="MDCRipple"
+           data-mdc-ripple-is-unbounded>menu</a>
+        <h1 id="" class="mdc-toolbar__title"><span>Bars in River North</span></h1>
+      </section>
+    </div>
+  </header>
+  
+  <a href="https://www.accuweather.com/en/us/chicago-il/60608/weather-forecast/348308" class="aw-widget-legal">
+
+</a><div id="awcc1511736099046" class="aw-widget-current"  data-locationkey="348308" data-unit="f" data-language="en-us" data-useip="false" data-uid="awcc1511736099046"></div>
+<script type="text/javascript" src="https://oap.accuweather.com/launch.js"></script>
+<div id="map"></div>
+<script>
+
+
+      var map;
+      var infowindow;
+      var trafficLayer
+      var transitLayer
+      
+      
+      function initMap() {
+        var chicago = {lat: 41.892385, lng: -87.634075};
+        
+        
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: chicago,
+          zoom: 15
+        });
+
+
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
+        
+          var transitLayer = new google.maps.TransitLayer();
+         transitLayer.setMap(map);
+        
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: chicago,
+          radius: 500,
+          type: ['night_club']
+        }, callback);
+      }
+
+      function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+      }
+      
+      
+       
+    </script>
+ 
+  
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdDUZ0NRQ1HFqCk21NbS06fGHgH1rfkb8&callback=initMap">
+    </script>
+   
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdDUZ0NRQ1HFqCk21NbS06fGHgH1rfkb8&libraries=places&callback=initMap" async defer></script>
+
+  <aside id="shrine-nav-menu" class="mdc-temporary-drawer" data-mdc-auto-init="MDCTemporaryDrawer">
+    <nav class="mdc-temporary-drawer__drawer">
+      <header></header>
+      <nav class="mdc-temporary-drawer__content mdc-list">
+   <p> <span onclick="show('Page1');" class="mdc-list-item" >Transportation to River North</span>
+</p>
+<p>
+  <div id="Page1" onclick="show('Page1');" class="page" style="display:none">
+   <p><a href="https://www.google.com/maps/dir//River+North,+Chicago,+IL/@41.8924434,-87.6690943,13z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x880e2cb5eda6644b:0x2b2e901fc26da1f7!2m2!1d-87.6340749!2d41.8923848">Choose your Location</a></p> 
+  </div>
+        <p> <span onclick="show('Page2');" class="mdc-list-item" >Suggested Bars</span>
+</p>
+<p>
+  <div id="Page2" onclick="show('Page2');" class="page" style="display:none">
+    <p><a href="http://sound-bar.com/">1.Sound bar</a></p>            
+    <p><a href="http://www.giltbarchicago.com/">2.Gilt bar</a></p> 
+    <p><a href="http://moescantina.com/">3.Moe's Cantina</a></p> 
+  </div>
+        
+      </nav>
+    </nav>
+  </aside>
+<script>
+  function show(elementID) {
+    var ele = document.getElementById(elementID);
+    if (!ele) {
+        alert("no such element");
+        return;
+    }
+    var pages = document.getElementsByClassName('page');
+    for(var i = 0; i < pages.length; i++) {
+        pages[i].style.display = 'none';
+    }
+    ele.style.display = 'block';
+}
+</script>
+  
+  <script
+    src="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.js">
+  </script>
+  <script>
+    mdc.autoInit()
+    document.getElementById('shrine-nav-icon').addEventListener('click', function(evt) {
+      evt.preventDefault();
+      document.getElementById('shrine-nav-menu').MDCTemporaryDrawer.open = true;
+    });
+  </script>
+</body>
+</html>
+
